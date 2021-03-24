@@ -1,19 +1,36 @@
 <template lang="pug">
+	//- dev ============
+	mixin Paging
+		.paging
+			label.paging__label Страница: 
+			button.paging__btn &lt; 
+			select.paging__selector
+				option(
+					v-for=""
+				).paging__option
+			button.paging__btn &gt;
+
+	- var howmuch = "10"
+	mixin HowMuchData (howmuch)
+		.paging
+			label.paging__label Отображать по: 
+			select.paging__selector
+				
+				option.paging__option= howmuch
+
+	//- prod ===========
 	.table-data
-		.paging
-			label.paging__label
-			selector.paging__selector
-				option.paging__option
-		.paging
-			label.paging__label
-			selector.paging__selector
-				option.paging__option
+		+HowMuchData
+		+Paging
 		table.table
 			caption.table__caption
-		.paging
-			label.paging__label
-			selector.paging__selector
-				option.paging__option
+			tr.table__row.table__row_header
+				th.table__cell.table__cell_header(
+					v-for=""
+				)
+			tr.table__row
+				td.table__cell
+		+Paging
 
 </template>
 
@@ -39,7 +56,7 @@ export default {
 				},
 			]
 		}
-	}
+	},
 	computed: {
 
 	},
