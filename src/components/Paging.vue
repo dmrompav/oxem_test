@@ -6,8 +6,12 @@
 
 <script>
 export default {
-	name: 'TableData',
-	
+	name: 'Paging',
+	data() {
+		return {
+			
+		}
+	},
 }
 </script>
 
