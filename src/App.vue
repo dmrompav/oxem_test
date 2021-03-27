@@ -26,7 +26,9 @@
 		)
 		AddNewForm(
 			:table-head="tableHead"
-			:typesHead="typesHead"
+			:types-head="typesHead"
+			:table-ids="tableIds"
+			@add-new="addNew"
 		)
 		TableData(
 			@selected-person="person => selectedPerson = person"
@@ -67,16 +69,18 @@ export default {
 			howMuchData: 50,
 			whichPage: 1,
 			selectedPerson: undefined,
+			searchText: '',
 			whichSort: [],
 			tableHead: ['id', 'firstName', 'lastName', 'email', 'phone',],
 			typesHead: ['text', 'text', 'text', 'email', 'tel'],
 			tableData: [],
-			DataCopy: Array,
+			DataCopy: [],
+			tableIds: [],
 		}
 	},
 	computed: {
 		tableDataLength() { return this.tableData.length },
-		howMuchPages() { console.log(Math.ceil(this.tableDataLength / this.howMuchData)); return Math.ceil(this.tableDataLength / this.howMuchData) },
+		howMuchPages() { return Math.ceil(this.tableDataLength / this.howMuchData) },
 		cutted() {
 			if (this.tableDataLength <= this.howMuchData) {return this.tableData} 
 			else {return this.tableData.slice((this.whichPage - 1) * this.howMuchData, this.whichPage * this.howMuchData)}
@@ -92,6 +96,7 @@ export default {
 			this.dataLoad(requestURL)
 				.then(data => {
 					this.tableData = this.DataCopy = data
+					this.tableData.forEach(e => this.tableIds.push(e.id))
 					this.isDataTypeGotten = true
 					this.isDataTypeLoading = false
 				})
@@ -154,6 +159,7 @@ export default {
 			})
 		},
 		filterData(searchText) {
+			this.searchText = searchText
 			this.tableData = this.DataCopy.filter(person => {
 				let has
 				this.tableHead.forEach(key => {
@@ -163,7 +169,16 @@ export default {
 				})
 				return has
 			})
+			console.log(this.tableData)
 			this.sortData()
+			console.log(this.tableData)
+		},
+		addNew(person) {
+			console.log('')
+			let p = Object.assign({}, person)
+			this.DataCopy.push(p)
+			console.log(this.DataCopy)
+			this.filterData(this.searchText)
 		},
 	},
 }
@@ -171,6 +186,20 @@ export default {
 
 
 // ===== STYLES ==============================
-<style scoped lang="stylus">
+<style lang="stylus">
+@import './assets/_reset.styl'
+body
+	position absolute
+	width 100vw
+	height 100vh
+	background #34495e
+	font-family sans-serif
+	color #dddddd
+	overflow scroll
+
+#app
+	position absolute
+	
+	
 </style>
 

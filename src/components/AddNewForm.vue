@@ -1,7 +1,9 @@
 <template lang="pug">
 	details.add-new
 		summary.add-new__summary Добавить
-		form.add-new__form
+		form.add-new__form(
+			@submit="checkAndAdd"
+		)
 			.add-new__row(
 				v-for="(title, i) in tableHead"
 			)
@@ -11,8 +13,17 @@
 					:placeholder="title"
 				)
 				p.error(
-					v-if="$v.form.phone.$dirty && !$v.form.phone.$valid"
+					v-if="$v.form.id.$dirty && $v.form[title].$invalid"
 				) Обязательное поле
+				p.error(
+					v-if="title==='id' && $v.form.id.$dirty && $v.form.id.$invalid"
+				) ID занят
+				p.error(
+					v-if="title==='email' && $v.form.email.$dirty && $v.form.email.$invalid"
+				) Некорректный email
+				p.error(
+					v-if="title==='phone' && $v.form.phone.$dirty && $v.form.phone.$invalid"
+				) Номер в формате: (123)123-1234
 		button(
 			type="submit"
 			@click="checkAndAdd"
@@ -23,7 +34,7 @@
 // ===== SCRIPTS ==============================
 <script>
 import { validationMixin } from 'vuelidate'
-import { required, minLength } from 'vuelidate/lib/validators'
+import { required } from 'vuelidate/lib/validators'
 
 export default {
 	name: 'AddNewForm',
@@ -31,6 +42,7 @@ export default {
 	props: {
 		tableHead: Array,
 		typesHead: Array,
+		tableIds: Array,
 	},
 	data() {
 		return {
@@ -41,42 +53,52 @@ export default {
 				lastName: '',
 				email: '',
 				phone: '',
+			},
+			formMask: {
+				phone: '(___)___-____'
 			}
+		}
+	},
+	methods: {
+		checkAndAdd(e) {
+			this.$v.form.$touch()
+			if(this.$v.form.$invalid) {
+				e.preventDefault()
+			} else {
+				this.$emit('add-new', this.form)
+			}
+		},
+		phoneMask() {
 		}
 	},
 	validations: {
 		form: {
 			id: {
 				required,
+				valid(value) {
+					return !this.tableIds.includes(value)
+				}
 			},
 			firstName: {
 				required,
-				minLength: minLength(4)
 			},
 			lastName: {
 				required,
-				minLength: minLength(4)
 			},
 			email: {
 				required,
-				minLength: minLength(4)
+				valid(value) {
+					return value.includes('@')
+				},
 			},
 			phone: {
 				required,
 				valid(value) {
-					console.log(value)
-					return (/^\([0-9]*3\)[0-9]*3-[0-9]*4/).test(value)
+					return (/^\(\d{3}\)\d{3}-\d{4}/).test(value)
 				},
 			},
 		}
 	},
-
-	methods: {
-		checkAndAdd() {
-			this.$v.form.$touch()
-			console.log(this.$v.form.$invalid)
-		},
-	}
 }
 </script>
 
