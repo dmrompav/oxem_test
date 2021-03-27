@@ -1,6 +1,6 @@
 <template lang="pug">
 	details.add-new
-		summary.add-new__summary Добавить
+		summary.add-new__summary Добавить строку
 		form.add-new__form(
 			@submit="checkAndAdd"
 		)
@@ -15,6 +15,12 @@
 				p.error(
 					v-if="$v.form.id.$dirty && $v.form[title].$invalid"
 				) Обязательное поле
+				p.error(
+					v-if="title==='firstName' && $v.form.id.$dirty && $v.form.id.$invalid"
+				) С заглавной буквы
+				p.error(
+					v-if="title==='lastName' && $v.form.id.$dirty && $v.form.id.$invalid"
+				) С заглавной буквы
 				p.error(
 					v-if="title==='id' && $v.form.id.$dirty && $v.form.id.$invalid"
 				) ID занят
@@ -54,9 +60,6 @@ export default {
 				email: '',
 				phone: '',
 			},
-			formMask: {
-				phone: '(___)___-____'
-			}
 		}
 	},
 	methods: {
@@ -76,14 +79,20 @@ export default {
 			id: {
 				required,
 				valid(value) {
-					return !this.tableIds.includes(value)
+					return !this.tableIds.includes(value.toString())
 				}
 			},
 			firstName: {
 				required,
+				valid(value) {
+					return (/^[A-Z]/).test(value)
+				}
 			},
 			lastName: {
 				required,
+				valid(value) {
+					return (/^[A-Z]/).test(value)
+				}
 			},
 			email: {
 				required,
@@ -105,4 +114,29 @@ export default {
 
 // ===== STYLES ==============================
 <style scoped lang="stylus">
+.add-new
+
+
+	&__summary
+
+
+	&__form
+
+
+	&__row
+
+
+	&__input
+		width 150px
+		padding 5px
+
+	&__button
+		height 26px
+		margin-right 10px
+		padding 0 10px
+		background #2ecc71
+
+.error
+	color #e74c3c
+
 </style>

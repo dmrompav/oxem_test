@@ -30,4 +30,12 @@ export default {
 
 // ===== STYLES ==============================
 <style scoped lang="stylus">
+.info
+	font-size 18px
+	&__p
+		margin 10px 0 0 0
+
+	&__textarea
+		padding 5px
+		margin 0 0 10px 0
 </style>

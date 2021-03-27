@@ -80,6 +80,7 @@ export default {
 		font-size 20px
 		margin 10px
 		padding 10px
+		border-radius 10px
 
 		&_1
 			background #2ecc71

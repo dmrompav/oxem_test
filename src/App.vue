@@ -14,35 +14,36 @@
 			:is-data-type-gotten="isDataTypeGotten"
 			@data-type-select="dataTypeSelect"
 		)
-		HowMuchSel(
-			:how-much-select="howMuchSelect"
-			:how-much-data="howMuchData"
-			@how-much-data="i => howMuchData = i"
-		)
-		+Paging
-		Search(
-			@filterData="filterData"
-			:table-data-length="tableDataLength"
-		)
-		AddNewForm(
-			:table-head="tableHead"
-			:types-head="typesHead"
-			:table-ids="tableIds"
-			@add-new="addNew"
-		)
-		TableData(
-			@selected-person="person => selectedPerson = person"
-			@sort-data-click="sortDataClick"
-			:which-page="whichPage"
-			:which-sort="whichSort"
-			:table-head="tableHead"
-			:cutted="cutted"
-			:how-much-data="howMuchData"
-		)
-		+Paging
-		Info(
-			:selected-person="selectedPerson"
-		)
+		.container
+			HowMuchSel(
+				:how-much-select="howMuchSelect"
+				:how-much-data="howMuchData"
+				@how-much-data="i => howMuchData = i"
+			)
+			+Paging
+			Search(
+				@filterData="filterData"
+				:table-data-length="tableDataLength"
+			)
+			AddNewForm(
+				:table-head="tableHead"
+				:types-head="typesHead"
+				:table-ids="tableIds"
+				@add-new="addNew"
+			)
+			TableData(
+				@selected-person="person => selectedPerson = person"
+				@sort-data-click="sortDataClick"
+				:which-page="whichPage"
+				:which-sort="whichSort"
+				:table-head="tableHead"
+				:cutted="cutted"
+				:how-much-data="howMuchData"
+			)
+			+Paging
+			Info(
+				:selected-person="selectedPerson"
+			)
 </template>
 
 
@@ -91,9 +92,9 @@ export default {
 			this.isDataTypeLoading = true
 			let requestURL
 			if(value === "small") {
-				requestURL = "http://cors-anywhere.herokuapp.com/http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}"
+				requestURL = "https://dmrompav.github.io/oxem_tables/small_data.json"
 			} else {
-				requestURL = "http://cors-anywhere.herokuapp.com/http://www.filltext.com/?rows=1000&id={number|1000}&firstName={firstName}&delay=3&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}"
+				requestURL = "https://dmrompav.github.io/oxem_tables/big_data.json"
 			}
 			this.dataLoad(requestURL)
 				.then(data => {
@@ -196,17 +197,23 @@ export default {
 <style lang="stylus">
 @import './assets/_reset.styl'
 body
+	display block
+	position absolute
+	background #2980b9
+	color #fff
+	font-family sans-serif
+
+#app
+	display block
 	position absolute
 	width 100vw
 	height 100vh
-	background #34495e
-	font-family sans-serif
-	color #dddddd
-	overflow scroll
+	
+.container
+	display block
+	width 95vw
+	max-width 1000px
+	margin auto
 
-#app
-	position absolute
-	
-	
 </style>
 

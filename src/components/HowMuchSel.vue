@@ -1,12 +1,13 @@
 <template lang="pug">
 	.paging
-		label.paging__label Отображать по: 
-		select.paging__selector
-			option.paging__option(
-				v-for="i in howMuchSelect"
-				:selected="i===howMuchData"
-				@click="$emit('how-much-data', i)"
-			) {{ i }}
+		.paging__label Отображать по: 
+		.paging__selector {{ howMuchData }}
+			ul.paging__list
+				li.paging__option(
+					v-for="i in howMuchSelect"
+					:class="i===howMuchData ? 'paging__option--selected' : ''"
+					@click="$emit('how-much-data', i)"
+				) {{ i }}
 </template>
 
 
@@ -24,4 +25,8 @@ export default {
 
 // ===== STYLES ==============================
 <style scoped lang="stylus">
+.paging
+	z-index 10
+
+// using Paging.vue styles
 </style>

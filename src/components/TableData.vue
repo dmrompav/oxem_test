@@ -2,7 +2,7 @@
 	table.table
 		caption.table__caption
 			h1 Test Дмитрий Павлов
-		tr.table__row.table__row_header
+		tr.table__header
 			td.table__cell №
 			th.table__cell.table__cell_header(
 				v-for="(colName, key) in tableHead"
@@ -51,22 +51,33 @@ export default {
 // ===== STYLES ==============================
 <style scoped lang="stylus">
 .table
-	max-width 95vw
 	border-collapse: collapse
+
 	&__caption
 		font-size 30px
+		margin 0 15px
+
+	&__header
+		background #000
+		font-size 20px
+
 	&__row
 		cursor pointer
+		&:hover
+			background gray
+
 		&--selected
 			background #c0392b
-		&_header
-			background #000
-			font-size 20px
+
 	&__cell
 		border 1px solid
 		padding 3px 5px
+
 		&_header
 			border 2px solid
+			transition background 0.1s
+			&:hover
+				background #c0392b
 
 .sort
 	margin-right 3px
