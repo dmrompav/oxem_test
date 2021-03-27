@@ -32,10 +32,18 @@ export default {
 <style scoped lang="stylus">
 .info
 	font-size 18px
+	border 1px solid #fff
+	width 500px
+	max-width 90vw
+	padding 10px
+	margin-bottom 30px
+
 	&__p
 		margin 10px 0 0 0
 
 	&__textarea
 		padding 5px
 		margin 0 0 10px 0
+		max-width 480px
+
 </style>

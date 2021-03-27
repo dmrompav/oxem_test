@@ -81,6 +81,9 @@ export default {
 		margin 10px
 		padding 10px
 		border-radius 10px
+		transition transform 0.1s
+		&:hover
+			transform scale(1.2)
 
 		&_1
 			background #2ecc71

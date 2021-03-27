@@ -12,6 +12,7 @@
 				| {{ colName }}
 		tr.table__row(
 			v-for="(person, key) in cutted"
+			:key="person.id"
 			@click="rowSelect(person, key)"
 			:class="whichRow === key ? 'table__row--selected' : ''"
 		)
@@ -55,7 +56,7 @@ export default {
 
 	&__caption
 		font-size 30px
-		margin 0 15px
+		margin 15px 0
 
 	&__header
 		background #000

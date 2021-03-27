@@ -11,6 +11,7 @@
 					v-model="form[title]"
 					:type="typesHead[i]"
 					:placeholder="title"
+					:class="($v.form.id.$dirty && $v.form[title].$invalid)? '.add-new__input--wrong' : ''"
 				)
 				p.error(
 					v-if="$v.form.id.$dirty && $v.form[title].$invalid"
@@ -115,28 +116,44 @@ export default {
 // ===== STYLES ==============================
 <style scoped lang="stylus">
 .add-new
-
+	margin 10px 0
 
 	&__summary
+		position relative
+		width 200px
+		padding 10px 0
 
+		&:before
+			content ''
+			position absolute
+			z-index -1
+			top 0
+			left 0
+			width 0
+			transition width 0.1s
+			height 100%
+			background #e74c3c
+			border-radius 5px
 
-	&__form
-
-
-	&__row
-
+		&:hover:before
+			width 100%
 
 	&__input
 		width 150px
 		padding 5px
+		border-radius 5px
+		margin 5px 0
 
 	&__button
 		height 26px
-		margin-right 10px
 		padding 0 10px
 		background #2ecc71
+		border-radius 5px
+		font-size 20px
+		margin 5px 0
 
 .error
 	color #e74c3c
+	margin 0 0 5px 0
 
 </style>

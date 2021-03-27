@@ -147,7 +147,7 @@ export default {
 					let colName = this.tableHead[i]
 					switch (sort)  {
 						case 'ascend': {
-							this.tableData.sort((a, b) => {
+							this.DataCopy.sort((a, b) => {
 								if (a[colName] > b[colName]) { return 1 }
 								else if (a[colName] < b[colName]) { return -1 }
 								else {return (a[0] > b[0])? 1 : -1} // if a === b then sort by "id"
@@ -155,7 +155,7 @@ export default {
 							break
 						}
 						case 'discend': {
-							this.tableData.sort((a, b) => {
+							this.DataCopy.sort((a, b) => {
 								if (a[colName] < b[colName]) { return 1 }
 								else if (a[colName] > b[colName]) { return -1 }
 								else {return (a[0] < b[0])? 1 : -1} // if a === b then sort by "id"
@@ -163,13 +163,14 @@ export default {
 							break
 						}
 					}
+					this.tableData = this.DataCopy.slice(0)
 				}
 			})
 		},
 		filterData(searchText) {
 			this.searchText = searchText
 			this.tableData = this.DataCopy.filter(person => {
-				let has
+				let has = false
 				this.tableHead.forEach(key => {
 					if(person[key].toString().toLowerCase().includes(searchText.toString().toLowerCase())) { 
 						has = true
@@ -177,17 +178,21 @@ export default {
 				})
 				return has
 			})
-			console.log(this.tableData)
-			this.sortData()
-			console.log(this.tableData)
+			this.chooseRightPage()
 		},
 		addNew(person) {
-			console.log('')
 			let p = Object.assign({}, person)
 			this.DataCopy.push(p)
-			console.log(this.DataCopy)
+			this.sortData()
 			this.filterData(this.searchText)
 		},
+		chooseRightPage() {
+			if(this.whichPage > this.howMuchPages) {
+				this.whichPage = this.howMuchPages || 1
+			} else if(this.whichPage <= 1) {
+				this.whichPage = 1
+			}
+		}
 	},
 }
 </script>
@@ -196,6 +201,7 @@ export default {
 // ===== STYLES ==============================
 <style lang="stylus">
 @import './assets/_reset.styl'
+
 body
 	display block
 	position absolute

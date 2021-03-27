@@ -5,11 +5,10 @@
 			v-if="whichPage > 1"
 			@click="$emit('which-page', whichPage - 1)"
 		) &lt; 
-		.paging__selector {{ whichPage }}
+		button.paging__selector {{ whichPage }}
 			ul.paging__list
 				li.paging__option(
 					v-for="i in howMuchPages"
-					:key="i"
 					:class="i===whichPage ? 'paging__option--selected' : ''"
 					@click="$emit('which-page', i)"
 				) {{ i }}
@@ -29,19 +28,6 @@ export default {
 		howMuchPages: Number,
 		whichPage: Number,
 	},
-	methods: {
-		chooseRightPage() {
-			if(this.whichPage > this.howMuchPages) {
-				this.$emit('which-page', this.howMuchPages)
-			} else if(this.whichPage < 1) {
-				this.$emit('which-page', 1)
-			}
-		}
-	},
-	watch: {
-		whichPage() { this.chooseRightPage() },
-		howMuchPages() { this.chooseRightPage() },
-	}
 }
 </script>
 
@@ -49,6 +35,8 @@ export default {
 // ===== STYLES ==============================
 <style lang="stylus">
 .paging
+	position relative
+	z-index 5
 	margin 10px 0
 	display flex
 	justify-content flex-start
@@ -66,7 +54,8 @@ export default {
 		background #fff
 		color #000
 		cursor pointer
-		&:hover>ul
+		border-radius 5px
+		&:focus>ul
 			height auto
 
 	&__list
@@ -78,6 +67,9 @@ export default {
 		text-align center
 		overflow hidden
 		background #fff
+		border-radius 5px
+		&:focus
+			height 0 !important
 
 	&__option
 		background #eee
@@ -92,5 +84,9 @@ export default {
 	&__btn
 		padding 10px
 		background #2ecc71
+		transition background 0.1s
+		border-radius 5px
+		&:hover
+			background #2ecc71
 
 </style>
