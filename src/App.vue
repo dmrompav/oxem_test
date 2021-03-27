@@ -90,9 +90,11 @@ export default {
 		dataTypeSelect(value) {
 			this.isDataTypeLoading = true
 			let requestURL
-			value === "small" ?
-					requestURL = "http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}" :
-					requestURL = "http://www.filltext.com/?rows=1000&id={number|1000}&firstName={firstName}&delay=3&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}"
+			if(value === "small") {
+				requestURL = "http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}"
+			} else {
+				requestURL = "http://www.filltext.com/?rows=1000&id={number|1000}&firstName={firstName}&delay=3&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}"
+			}
 			this.dataLoad(requestURL)
 				.then(data => {
 					this.tableData = this.DataCopy = data
@@ -106,16 +108,16 @@ export default {
 				})
 		},
 		dataLoad(requestURL) {
-			return new Promise((resolve, reject) => {
+			return new Promise((resolve) => {
 				const xhr = new XMLHttpRequest()
 				xhr.open('GET', requestURL)
 				xhr.responseType = 'json'
 				xhr.onload = () => {
-					resolve(xhr.response)
+					
+						resolve(xhr.response)
+					
 				}
-				xhr.onerror = () => {
-					reject(xhr.response)
-				}
+				
 				xhr.send()
 			})
 		},
