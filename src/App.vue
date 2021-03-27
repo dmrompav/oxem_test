@@ -91,9 +91,9 @@ export default {
 			this.isDataTypeLoading = true
 			let requestURL
 			if(value === "small") {
-				requestURL = "http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}"
+				requestURL = "https://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}"
 			} else {
-				requestURL = "http://www.filltext.com/?rows=1000&id={number|1000}&firstName={firstName}&delay=3&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}"
+				requestURL = "https://www.filltext.com/?rows=1000&id={number|1000}&firstName={firstName}&delay=3&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}"
 			}
 			this.dataLoad(requestURL)
 				.then(data => {
@@ -105,19 +105,24 @@ export default {
 				.catch(err => {
 					alert('что-то пошло не так... попробуйте снова')
 					console.log(err)
+					this.isDataTypeLoading = false
 				})
 		},
 		dataLoad(requestURL) {
-			return new Promise((resolve) => {
+			return new Promise((resolve, reject) => {
 				const xhr = new XMLHttpRequest()
 				xhr.open('GET', requestURL)
 				xhr.responseType = 'json'
 				xhr.onload = () => {
-					
+					if(xhr.status >= 400) {
+						reject(xhr.response)
+					} else {
 						resolve(xhr.response)
-					
+					}
 				}
-				
+				xhr.onerror = () => {
+					reject(xhr.response)
+				}
 				xhr.send()
 			})
 		},
