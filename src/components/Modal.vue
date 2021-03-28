@@ -37,7 +37,7 @@ export default {
 // ===== STYLES ==============================
 <style scoped lang="stylus">
 .modal-container
-	z-index 20
+	z-index 100
 	position absolute
 	width 100vw
 	height 100vh

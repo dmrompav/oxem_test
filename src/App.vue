@@ -24,6 +24,8 @@
 			Search(
 				@filterData="filterData"
 				:table-data-length="tableDataLength"
+				:data-copy="DataCopy"
+				:table-head="tableHead"
 			)
 			AddNewForm(
 				:table-head="tableHead"
@@ -99,7 +101,7 @@ export default {
 			this.dataLoad(requestURL)
 				.then(data => {
 					this.tableData = this.DataCopy = data
-					this.tableData.forEach(e => this.tableIds.push(e.id))
+					this.tableData.forEach(e => this.tableIds.push(e.id.toString()))
 					this.isDataTypeGotten = true
 					this.isDataTypeLoading = false
 				})
@@ -147,7 +149,7 @@ export default {
 					let colName = this.tableHead[i]
 					switch (sort)  {
 						case 'ascend': {
-							this.DataCopy.sort((a, b) => {
+							this.tableData.sort((a, b) => {
 								if (a[colName] > b[colName]) { return 1 }
 								else if (a[colName] < b[colName]) { return -1 }
 								else {return (a[0] > b[0])? 1 : -1} // if a === b then sort by "id"
@@ -155,7 +157,7 @@ export default {
 							break
 						}
 						case 'discend': {
-							this.DataCopy.sort((a, b) => {
+							this.tableData.sort((a, b) => {
 								if (a[colName] < b[colName]) { return 1 }
 								else if (a[colName] > b[colName]) { return -1 }
 								else {return (a[0] < b[0])? 1 : -1} // if a === b then sort by "id"
@@ -163,7 +165,6 @@ export default {
 							break
 						}
 					}
-					this.tableData = this.DataCopy.slice(0)
 				}
 			})
 		},
@@ -178,6 +179,7 @@ export default {
 				})
 				return has
 			})
+			this.sortData()
 			this.chooseRightPage()
 		},
 		addNew(person) {
@@ -185,6 +187,7 @@ export default {
 			this.DataCopy.push(p)
 			this.sortData()
 			this.filterData(this.searchText)
+			this.tableIds.push(person.id.toString())
 		},
 		chooseRightPage() {
 			if(this.whichPage > this.howMuchPages) {

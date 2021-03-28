@@ -33,10 +33,10 @@ export default {
 
 
 // ===== STYLES ==============================
-<style lang="stylus">
+<style scoped lang="stylus">
 .paging
 	position relative
-	z-index 5
+	z-index 10
 	margin 10px 0
 	display flex
 	justify-content flex-start
@@ -55,21 +55,22 @@ export default {
 		color #000
 		cursor pointer
 		border-radius 5px
-		&:focus>ul
+		&:hover>ul
 			height auto
+			max-height 180px
+			overflow-y auto
 
 	&__list
+		display block
 		position absolute
+		z-index 1
 		left 0
 		top 30px
 		height 0
-		width 50px
+		width 80px
 		text-align center
 		overflow hidden
-		background #fff
 		border-radius 5px
-		&:focus
-			height 0 !important
 
 	&__option
 		background #eee

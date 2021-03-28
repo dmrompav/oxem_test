@@ -13,24 +13,35 @@
 					:placeholder="title"
 					:class="($v.form.id.$dirty && $v.form[title].$invalid)? '.add-new__input--wrong' : ''"
 				)
+				
+
+				// ===================================
+				// * VALIDATION ERRORS ----------------
 				p.error(
-					v-if="$v.form.id.$dirty && $v.form[title].$invalid"
+					v-if="$v.form.$dirty && !$v.form[title].required"
 				) Обязательное поле
 				p.error(
-					v-if="title==='firstName' && $v.form.id.$dirty && $v.form.id.$invalid"
-				) С заглавной буквы
-				p.error(
-					v-if="title==='lastName' && $v.form.id.$dirty && $v.form.id.$invalid"
-				) С заглавной буквы
-				p.error(
-					v-if="title==='id' && $v.form.id.$dirty && $v.form.id.$invalid"
+					v-if="title==='id' && $v.form.$dirty && !$v.form[title].valid"
 				) ID занят
 				p.error(
-					v-if="title==='email' && $v.form.email.$dirty && $v.form.email.$invalid"
+					v-if="title==='id' && $v.form.$dirty && !$v.form[title].validNumberOnly"
+				) Только цифры
+				p.error(
+					v-if="title==='firstName' && $v.form.$dirty && !$v.form[title].valid"
+				) С заглавной буквы
+				p.error(
+					v-if="title==='lastName' && $v.form.$dirty && !$v.form[title].valid"
+				) С заглавной буквы
+				p.error(
+					v-if="title==='email' && $v.form.$dirty && !$v.form[title].valid"
 				) Некорректный email
 				p.error(
-					v-if="title==='phone' && $v.form.phone.$dirty && $v.form.phone.$invalid"
+					v-if="title==='phone' && $v.form.$dirty && !$v.form[title].valid"
 				) Номер в формате: (123)123-1234
+				// * VALIDATION ERRORS ----------------
+				// ===================================
+
+
 		button(
 			type="submit"
 			@click="checkAndAdd"
@@ -70,17 +81,26 @@ export default {
 				e.preventDefault()
 			} else {
 				this.$emit('add-new', this.form)
+				this.form = {
+					id: '',
+					firstName: '',
+					lastName: '',
+					email: '',
+					phone: '',
+				}
+				this.$v.$reset()
 			}
 		},
-		phoneMask() {
-		}
 	},
 	validations: {
 		form: {
 			id: {
 				required,
+				validNumberOnly(value) {
+					return (/^\d*$/).test(value)
+				},
 				valid(value) {
-					return !this.tableIds.includes(value.toString())
+					return !this.tableIds.includes(value)
 				}
 			},
 			firstName: {

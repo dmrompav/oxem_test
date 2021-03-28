@@ -12,7 +12,6 @@
 				| {{ colName }}
 		tr.table__row(
 			v-for="(person, key) in cutted"
-			:key="person.id"
 			@click="rowSelect(person, key)"
 			:class="whichRow === key ? 'table__row--selected' : ''"
 		)
@@ -52,6 +51,7 @@ export default {
 // ===== STYLES ==============================
 <style scoped lang="stylus">
 .table
+	margin 20px 0 30px 0
 	border-collapse: collapse
 
 	&__caption
@@ -59,8 +59,9 @@ export default {
 		margin 15px 0
 
 	&__header
-		background #000
+		background #2c3e50
 		font-size 20px
+		cursor pointer
 
 	&__row
 		cursor pointer
@@ -68,7 +69,7 @@ export default {
 			background gray
 
 		&--selected
-			background #c0392b
+			background #8e44ad
 
 	&__cell
 		border 1px solid
@@ -78,7 +79,7 @@ export default {
 			border 2px solid
 			transition background 0.1s
 			&:hover
-				background #c0392b
+				background #27ae60
 
 .sort
 	margin-right 3px
