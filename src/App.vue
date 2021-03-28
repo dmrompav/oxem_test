@@ -14,7 +14,9 @@
 			:is-data-type-gotten="isDataTypeGotten"
 			@data-type-select="dataTypeSelect"
 		)
-		.container
+		.container(
+			v-if="isDataTypeGotten"
+		)
 			HowMuchSel(
 				:how-much-select="howMuchSelect"
 				:how-much-data="howMuchData"
@@ -216,13 +218,11 @@ body
 	display block
 	position absolute
 	width 100vw
-	height 100vh
 	
 .container
 	display block
 	width 95vw
 	max-width 1000px
-	margin auto
+	margin 0 auto 180px auto
 
 </style>
-
